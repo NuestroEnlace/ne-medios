@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Conectar TikTok · Nuestro Enlace</title>
+<style>
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#FBF9F5;color:#14130F;font:17px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif}
+  main{max-width:560px;padding:32px 20px}
+  h1{font:500 30px/1.2 Georgia,serif;margin:0 0 12px}
+  code{display:block;word-break:break-all;background:#fff;border:1px solid #E2DDCF;border-radius:10px;padding:14px;margin:16px 0;font-size:14px}
+  button{background:#49543D;color:#fff;border:0;border-radius:999px;padding:12px 22px;font-size:16px;cursor:pointer}
+  p.suave{color:#6E6A61;font-size:14px}
+</style>
+</head>
+<body>
+<main>
+  <h1 id="t">Conectar TikTok</h1>
+  <p id="m">Esta página recibe el permiso de TikTok para el motor de Nuestro Enlace.</p>
+  <code id="c" hidden></code>
+  <button id="b" hidden>Copiar el código</button>
+  <p class="suave">El código sirve una sola vez y caduca en unos minutos. No se guarda en ningún sitio: solo lo ves tú.</p>
+</main>
+<script>
+  // Sin terceros ni almacenamiento: solo enseña el código que trae la dirección.
+  const q = new URLSearchParams(location.search), codigo = q.get('code'), error = q.get('error');
+  const t = document.getElementById('t'), m = document.getElementById('m'), c = document.getElementById('c'), b = document.getElementById('b');
+  if (codigo) {
+    t.textContent = 'Permiso concedido';
+    m.textContent = 'Copia este código y pégaselo a Claude:';
+    c.textContent = codigo; c.hidden = false; b.hidden = false;
+    b.onclick = () => navigator.clipboard.writeText(codigo).then(() => { b.textContent = 'Copiado'; });
+  } else if (error) {
+    t.textContent = 'No se ha conectado';
+    m.textContent = 'TikTok dice: ' + (q.get('error_description') || error);
+  }
+</script>
+</body>
+</html>
